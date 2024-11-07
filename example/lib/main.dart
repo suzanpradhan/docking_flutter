@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:docking/docking.dart';
 import 'package:flutter/material.dart';
 
@@ -83,7 +85,12 @@ class DockingExamplePageState extends State<DockingExamplePage> {
             data: TabbedViewThemeData.classic(),
             child: Container(
                 padding: const EdgeInsets.all(16),
-                child: Docking(layout: _layout))));
+                child: Docking(
+                  layout: _layout,
+                  onLayoutChange: (interaction) {
+                    log(interaction.toString());
+                  },
+                ))));
   }
 }
 

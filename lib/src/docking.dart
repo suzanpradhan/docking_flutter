@@ -5,6 +5,7 @@ import 'package:docking/src/internal/widgets/docking_tabs_widget.dart';
 import 'package:docking/src/layout/docking_layout.dart';
 import 'package:docking/src/on_item_close.dart';
 import 'package:docking/src/on_item_selection.dart';
+import 'package:docking/src/on_layout_change.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:multi_split_view/multi_split_view.dart';
@@ -18,6 +19,7 @@ class Docking extends StatefulWidget {
       this.onItemClose,
       this.itemCloseInterceptor,
       this.dockingButtonsBuilder,
+      this.onLayoutChange,
       this.maximizableItem = true,
       this.maximizableTab = true,
       this.maximizableTabsArea = true,
@@ -30,6 +32,7 @@ class Docking extends StatefulWidget {
   final OnItemClose? onItemClose;
   final ItemCloseInterceptor? itemCloseInterceptor;
   final DockingButtonsBuilder? dockingButtonsBuilder;
+  final OnLayoutChange? onLayoutChange;
   final bool maximizableItem;
   final bool maximizableTab;
   final bool maximizableTabsArea;
@@ -47,7 +50,12 @@ class _DockingState extends State<Docking> {
   @override
   void initState() {
     super.initState();
-    _dragOverPosition.addListener(_forceRebuild);
+    _dragOverPosition.addListener(() {
+      _forceRebuild();
+      if (widget.onLayoutChange != null) {
+        widget.onLayoutChange!(InteractionType.tabChange);
+      }
+    });
     widget.layout?.addListener(_forceRebuild);
   }
 
@@ -152,6 +160,9 @@ class _DockingState extends State<Docking> {
         key: row.key,
         children: children,
         axis: Axis.horizontal,
+        onWeightChange: widget.onLayoutChange != null
+            ? () => widget.onLayoutChange!(InteractionType.weightChange)
+            : null,
         controller: row.controller,
         antiAliasingWorkaround: widget.antiAliasingWorkaround);
   }
@@ -166,6 +177,9 @@ class _DockingState extends State<Docking> {
         key: column.key,
         children: children,
         axis: Axis.vertical,
+        onWeightChange: widget.onLayoutChange != null
+            ? () => widget.onLayoutChange!(InteractionType.weightChange)
+            : null,
         controller: column.controller,
         antiAliasingWorkaround: widget.antiAliasingWorkaround);
   }
