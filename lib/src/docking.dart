@@ -24,7 +24,8 @@ class Docking extends StatefulWidget {
       this.maximizableTab = true,
       this.maximizableTabsArea = true,
       this.antiAliasingWorkaround = true,
-      this.draggable = true})
+      this.draggable = true,
+      this.showTabs = true})
       : super(key: key);
 
   final DockingLayout? layout;
@@ -38,6 +39,7 @@ class Docking extends StatefulWidget {
   final bool maximizableTabsArea;
   final bool antiAliasingWorkaround;
   final bool draggable;
+  final bool showTabs;
 
   @override
   State<StatefulWidget> createState() => _DockingState();
@@ -114,7 +116,8 @@ class _DockingState extends State<Docking> {
           itemCloseInterceptor: widget.itemCloseInterceptor,
           onItemClose: widget.onItemClose,
           dockingButtonsBuilder: widget.dockingButtonsBuilder,
-          maximizable: widget.maximizableItem);
+          maximizable: widget.maximizableItem,
+          tabsAreaVisible: widget.showTabs);
     } else if (area is DockingRow) {
       return _row(context, area);
     } else if (area is DockingColumn) {
@@ -131,7 +134,8 @@ class _DockingState extends State<Docking> {
             itemCloseInterceptor: widget.itemCloseInterceptor,
             onItemClose: widget.onItemClose,
             dockingButtonsBuilder: widget.dockingButtonsBuilder,
-            maximizable: widget.maximizableItem);
+            maximizable: widget.maximizableItem,
+            tabsAreaVisible: widget.showTabs);
       }
       return DockingTabsWidget(
           key: area.key,
@@ -144,7 +148,8 @@ class _DockingState extends State<Docking> {
           itemCloseInterceptor: widget.itemCloseInterceptor,
           dockingButtonsBuilder: widget.dockingButtonsBuilder,
           maximizableTab: widget.maximizableTab,
-          maximizableTabsArea: widget.maximizableTabsArea);
+          maximizableTabsArea: widget.maximizableTabsArea,
+          tabsAreaVisible: widget.showTabs);
     }
     throw UnimplementedError(
         'Unrecognized runtimeType: ' + area.runtimeType.toString());

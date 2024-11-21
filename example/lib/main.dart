@@ -86,6 +86,7 @@ class DockingExamplePageState extends State<DockingExamplePage> {
             child: Container(
                 padding: const EdgeInsets.all(16),
                 child: Docking(
+                  showTabs: false,
                   layout: _layout,
                   onLayoutChange: (interaction) {
                     log(interaction.toString());

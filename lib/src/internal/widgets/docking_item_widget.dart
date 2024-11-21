@@ -26,7 +26,8 @@ class DockingItemWidget extends StatefulWidget {
       this.itemCloseInterceptor,
       this.dockingButtonsBuilder,
       required this.maximizable,
-      required this.draggable})
+      required this.draggable,
+      this.tabsAreaVisible = true})
       : super(key: key);
 
   final DockingLayout layout;
@@ -38,6 +39,7 @@ class DockingItemWidget extends StatefulWidget {
   final bool maximizable;
   final DragOverPosition dragOverPosition;
   final bool draggable;
+  final bool tabsAreaVisible;
 
   @override
   State<StatefulWidget> createState() => DockingItemWidgetState();
@@ -101,6 +103,7 @@ class DockingItemWidgetState extends State<DockingItemWidget>
     }
 
     Widget tabbedView = TabbedView(
+        tabsAreaVisible: widget.tabsAreaVisible,
         tabsAreaButtonsBuilder: _tabsAreaButtonsBuilder,
         onTabSelection: onTabSelection,
         tabCloseInterceptor: _tabCloseInterceptor,
