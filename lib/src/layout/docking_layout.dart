@@ -333,9 +333,6 @@ class DockingRow extends DockingParentArea {
             minimalWeight: minimalWeight,
             minimalSize: minimalSize) {
     controller = MultiSplitViewController(areas: children);
-    if (this._children.length < 2) {
-      throw ArgumentError('Insufficient number of children');
-    }
   }
 
   /// Builds a [DockingRow].
@@ -386,9 +383,6 @@ class DockingColumn extends DockingParentArea {
             minimalWeight: minimalWeight,
             minimalSize: minimalSize) {
     controller = MultiSplitViewController(areas: children);
-    if (this._children.length < 2) {
-      throw ArgumentError('Insufficient number of children');
-    }
   }
 
   /// Builds a [DockingColumn].

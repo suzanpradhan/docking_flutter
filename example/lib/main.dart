@@ -30,7 +30,8 @@ class DockingExamplePage extends StatefulWidget {
   DockingExamplePageState createState() => DockingExamplePageState();
 }
 
-class DockingExamplePageState extends State<DockingExamplePage> {
+class DockingExamplePageState extends State<DockingExamplePage>
+    with LayoutParserMixin {
   late DockingLayout _layout;
 
   @override
@@ -64,6 +65,7 @@ class DockingExamplePageState extends State<DockingExamplePage> {
       widget: const CenterText(text: 'non-maximizable'));
 
   DockingItem get _nonClosableItem => DockingItem(
+      id: "test",
       name: 'non-closable',
       closable: false,
       widget: const CenterText(text: 'non-closable'));
@@ -81,12 +83,31 @@ class DockingExamplePageState extends State<DockingExamplePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: Row(
+          children: [
+            IconButton(
+                onPressed: () {
+                  final target = _layout.findDockingItem("test");
+                  _layout.addItemOn(
+                      newItem: _buildItem(8, weight: .2),
+                      targetArea: target!,
+                      dropPosition: DropPosition.right);
+                },
+                icon: const Icon(Icons.add)),
+            IconButton(
+                onPressed: () {
+                  final layoutString = _layout.stringify(parser: this);
+                  print(layoutString);
+                },
+                icon: const Icon(Icons.send)),
+          ],
+        ),
         body: TabbedViewTheme(
             data: TabbedViewThemeData.classic(),
             child: Container(
                 padding: const EdgeInsets.all(16),
                 child: Docking(
-                  showTabs: false,
+                  showTabs: true,
                   layout: _layout,
                   onLayoutChange: (interaction) {
                     log(interaction.toString());
